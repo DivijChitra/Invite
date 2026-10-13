@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chitra & Divij — Wedding Celebration</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        linenBg: '#FDFBF7',
+                        linenCard: '#FFFFFF',
+                        linenDark: '#F4EFEA',
+                        sageGreen: '#7A8B78',
+                        sageDark: '#5E6E5C',
+                        champagneGold: '#B88D3F',
+                        champagneLight: '#F3EAD8',
+                        champagneDark: '#8F6E2D',
+                        charcoalText: '#2C2C2C',
+                        mutedGray: '#6E6E6E'
+                    },
+                    fontFamily: {
+                        script: ['Alex Brush', 'cursive'],
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        html::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Understated Card Style */
+        .subtle-card {
+            background: #FFFFFF;
+            border: 1px solid rgba(184, 141, 63, 0.32);
+            box-shadow: 0 10px 30px -5px rgba(44, 44, 44, 0.03);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .subtle-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(44, 44, 44, 0.08);
+            border-color: rgba(184, 141, 63, 0.62);
+        }
+
+        /* Scroll Animation Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal-left.active,
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-6px) rotate(1deg);
+            }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        #petalCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+    </style>
+</head>
+
+<body class="bg-linenBg text-charcoalText font-sans selection:bg-champagneGold selection:text-white overflow-x-hidden">
+
+    <!-- Petal Falling Canvas Effect -->
+    <canvas id="petalCanvas"></canvas>
+
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-center">
+        <button id="backToTop" onclick="scrollToTop()"
+            class="w-11 h-11 rounded-full bg-white text-champagneDark border border-champagneGold/30 shadow-lg flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-95"
+            title="Back to Top">
+            <i class="fas fa-chevron-up text-sm"></i>
+        </button>
+
+        <button id="musicToggle" onclick="toggleMusic()"
+            class="w-12 h-12 rounded-full bg-white text-champagneDark border border-champagneGold/40 shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 group relative"
+            title="Toggle Ambient Melody">
+            <i id="musicIcon" class="fas fa-music text-base"></i>
+            <span
+                class="absolute right-14 top-1 bg-white text-charcoalText text-xs font-serif py-1 px-3 rounded-md shadow-md border border-champagneGold/30 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                Ambient Sound
+            </span>
+        </button>
+    </div>
+
+    <nav class="fixed top-0 left-0 w-full z-40 bg-linenBg/90 backdrop-blur-md border-b border-champagneGold/40 text-charcoalText px-4 py-2 transition-all duration-300 shadow-sm"
+        id="mainNav">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="#hero"
+                class="font-serif text-champagneDark text-xl font-medium tracking-wider flex items-center gap-2">
+                <!-- <svg class="w-6 h-6 text-champagneGold" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="1.5">
+                    <path
+                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg> -->
+                <span><img src="Logo_Asset.png" alt="Description of the image" width="55" height="58"></span>
+            </a>
+            <div class="hidden md:flex space-x-8 font-serif text-xs uppercase tracking-[0.2em] text-mutedGray">
+                <a href="#hero" class="hover:text-champagneDark transition-colors">Home</a>
+                <a href="#couple" class="hover:text-champagneDark transition-colors">Couple</a>
+                <a href="#functions" class="hover:text-champagneDark transition-colors">Itinerary</a>
+                <a href="#venue" class="hover:text-champagneDark transition-colors">Venues</a>
+            </div>
+            <a href="#functions"
+                class="bg-champagneGold text-white font-sans text-xs uppercase tracking-wider py-1.5 px-3 rounded hover:bg-champagneDark transition-colors shadow-sm">
+                Functions
+            </a>
+        </div>
+    </nav>
+
+    <section id="hero"
+        class="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 bg-linenBg overflow-hidden">
+
+        <!-- Subtle Vector Background Floral Pattern -->
+        <div class="absolute inset-0 opacity-[0.5] pointer-events-none flex justify-between items-center px-12">
+            <!-- <svg class="w-96 h-96 text-champagneGold" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M50 0 C60 30 70 40 100 50 C70 60 60 70 50 100 C40 70 30 60 0 50 C30 40 40 30 50 0 Z" />
+            </svg>
+            <svg class="w-96 h-96 text-champagneGold" viewBox="0 0 100 100" fill="currentColor">
+                <path d="M50 0 C60 30 70 40 100 50 C70 60 60 70 50 100 C40 70 30 60 0 50 C30 40 40 30 50 0 Z" />
+            </svg> -->
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto text-center space-y-6 reveal active">
+
+            <div
+                class="mt-4 text-champagneDark font-serif text-xs md:text-sm tracking-[0.3em] uppercase flex items-center justify-center gap-3">
+                <!-- <br></br> -->
+                <span class="h-px w-12 bg-champagneGold/50"></span>
+                <span>|| Shree Ganeshay Namah ||</span>
+                <span class="h-px w-12 bg-champagneGold/50"></span>
+            </div>
+
+            <!-- Monogram Frame Vector -->
+            <div
+                class="w-36 h-36 md:w-44 md:h-44 mx-auto rounded-full border border-champagneGold/40 p-3 bg-white shadow-md flex items-center justify-center animate-float relative">
+                <!-- Outer Decorative Ring -->
+                <svg class="absolute inset-0 w-full h-full text-champagneGold/30 p-1" viewBox="0 0 100 100" fill="none"
+                    stroke="currentColor" stroke-width="0.75" stroke-dasharray="2,2">
+                    <circle cx="50" cy="50" r="48" />
+                </svg>
+                <div class="text-center">
+                    <span
+                        class="font-serif text-3xl md:text-4xl text-champagneDark font-light tracking-widest block"><img
+                            src="Logo_Asset.png" alt="Description of the image" width="100" height="100"></span>
+                    <span class="font-script text-sageDark text-base md:text-lg block -mt-1">Wedding</span>
+                </div>
+            </div>
+
+            <p class="font-script text-sageDark text-3xl md:text-5xl">Together with their families</p>
+
+            <h1
+                class="text-4xl md:text-7xl font-serif font-medium tracking-wide text-charcoalText uppercase leading-tight">
+                Chitra <br class="hidden md:inline" /> <span
+                    class="font-script lowercase text-2xl md:text-4xl text-champagneDark font-normal">and</span> Divij
+            </h1>
+
+            <p class="font-serif text-base md:text-xl text-mutedGray tracking-wider italic font-light max-w-xl mx-auto">
+                Cordially invite you to celebrate their auspicious union
+            </p>
+
+            <div class="py-2">
+                <div
+                    class="inline-block border-y border-champagneGold/30 py-3 px-8 my-2 bg-white/80 backdrop-blur-sm rounded shadow-sm">
+                    <p class="font-serif text-lg md:text-xl text-champagneDark font-medium uppercase tracking-[0.2em]">
+                        2nd & 3rd December 2026
+                    </p>
+                    <p class="text-xs font-sans tracking-widest text-mutedGray uppercase mt-1">Sector 74 & Sector 52 •
+                        Noida, UP</p>
+                </div>
+            </div>
+
+            <div class="pt-4 max-w-md mx-auto">
+                <p class="font-serif text-xs uppercase tracking-[0.25em] text-champagneDark mb-3">Countdown to
+                    Celebration</p>
+                <div class="grid grid-cols-4 gap-3">
+                    <div class="bg-white border border-champagneGold/30 p-3 rounded text-center shadow-sm">
+                        <span id="days"
+                            class="block font-serif text-2xl md:text-3xl font-semibold text-charcoalText">00</span>
+                        <span class="text-[10px] uppercase tracking-wider text-mutedGray">Days</span>
+                    </div>
+                    <div class="bg-white border border-champagneGold/30 p-3 rounded text-center shadow-sm">
+                        <span id="hours"
+                            class="block font-serif text-2xl md:text-3xl font-semibold text-charcoalText">00</span>
+                        <span class="text-[10px] uppercase tracking-wider text-mutedGray">Hours</span>
+                    </div>
+                    <div class="bg-white border border-champagneGold/30 p-3 rounded text-center shadow-sm">
+                        <span id="minutes"
+                            class="block font-serif text-2xl md:text-3xl font-semibold text-charcoalText">00</span>
+                        <span class="text-[10px] uppercase tracking-wider text-mutedGray">Mins</span>
+                    </div>
+                    <div class="bg-white border border-champagneGold/30 p-3 rounded text-center shadow-sm">
+                        <span id="seconds"
+                            class="block font-serif text-2xl md:text-3xl font-semibold text-charcoalText">00</span>
+                        <span class="text-[10px] uppercase tracking-wider text-mutedGray">Secs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="couple" class="py-24 px-4 bg-white relative overflow-hidden">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="font-script text-3xl md:text-4xl text-champagneDark">The Bride's & Groom's</span>
+                <h2 class="font-serif text-3xl md:text-4xl text-charcoalText font-normal tracking-wide mt-1">Family</h2>
+                <div class="w-16 h-px bg-champagneGold mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 items-stretch">
+                <!-- Bride Card -->
+                <div class="subtle-card p-8 md:p-10 rounded-xl text-center relative overflow-hidden reveal-left">
+                    <!-- Vector Floral Icon Ring -->
+                    <div
+                        class="w-24 h-24 mx-auto mb-6 rounded-full border border-champagneGold/40 bg-linenBg flex items-center justify-center text-champagneDark">
+                        <!-- <svg class="w-12 h-12 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v8m-4-4h8" />
+                        </svg> -->
+                        <img src="bride.svg" alt="My SVG Logo" width="60" height="60">
+                    </div>
+
+                    <span
+                        class="inline-block px-3 py-1 rounded bg-linenDark text-sageDark font-serif text-xs uppercase tracking-[0.2em] font-medium mb-3">THE
+                        BRIDE</span>
+
+                    <h3 class="font-serif text-3xl text-charcoalText font-medium mb-3">Chitra Adhikari</h3>
+
+                    <div class="w-12 h-px bg-champagneGold/40 mx-auto my-4"></div>
+
+                    <div class="space-y-1 text-gray-700 font-serif text-base">
+                        <p class="text-xs uppercase tracking-widest text-champagneDark font-sans font-medium">Daughter
+                            of</p>
+                        <p class="font-medium text-gray-900">Mrs. Rama Adhikari</p>
+                        <p class="text-xs text-gray-400 font-sans">&</p>
+                        <p class="font-medium text-gray-900">Mr. Kundan Singh Adhikari</p>
+                    </div>
+                </div>
+
+                <!-- Groom Card -->
+                <div class="subtle-card p-8 md:p-10 rounded-xl text-center relative overflow-hidden reveal-right">
+                    <!-- Vector Crest Icon Ring -->
+                    <div
+                        class="w-24 h-24 mx-auto mb-6 rounded-full border border-champagneGold/40 bg-linenBg flex items-center justify-center text-champagneDark">
+                        <!-- <svg class="w-12 h-12 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="1.2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg> -->
+                        <img src="groom.svg" alt="My SVG Logo" width="60" height="60">
+                    </div>
+
+                    <span
+                        class="inline-block px-3 py-1 rounded bg-linenDark text-sageDark font-serif text-xs uppercase tracking-[0.2em] font-medium mb-3">THE
+                        GROOM</span>
+
+                    <h3 class="font-serif text-3xl text-charcoalText font-medium mb-3">Divij Manik</h3>
+
+                    <div class="w-12 h-px bg-champagneGold/40 mx-auto my-4"></div>
+
+                    <div class="space-y-1 text-gray-700 font-serif text-base">
+                        <p class="text-xs uppercase tracking-widest text-champagneDark font-sans font-medium">Son of</p>
+                        <p class="font-medium text-gray-900">Mrs. Sangeeta Manik</p>
+                        <p class="text-xs text-gray-400 font-sans">&</p>
+                        <p class="font-medium text-gray-900">Mr. Kamal Manik</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="functions" class="py-24 px-4 bg-linenBg relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <span class="font-script text-3xl md:text-4xl text-champagneDark">Wedding Itinerary</span>
+                <h2 class="font-serif text-3xl md:text-4xl text-charcoalText font-normal tracking-wide mt-1">Auspicious
+                    Functions</h2>
+                <div class="w-16 h-px bg-champagneGold mx-auto mt-4"></div>
+            </div>
+
+            <div class="space-y-8">
+
+                <!-- Function 1: Haldi -->
+                <div
+                    class="subtle-card rounded-xl overflow-hidden p-8 md:p-10 bg-white border border-champagneGold/20 reveal">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div class="flex items-start gap-5">
+                            <!-- Haldi Vector SVG Icon -->
+                            <div
+                                class="w-16 h-16 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 flex-shrink-0">
+                                <!-- <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                                </svg> -->
+                                <img src="Haldi.svg" alt="My SVG Logo" width="30" height="30">
+                            </div>
+                            <div>
+                                <span
+                                    class="text-champagneDark text-xs px-2.5 py-0.5 rounded bg-champagneLight uppercase tracking-widest font-semibold font-sans">Pre-Wedding</span>
+                                <h3 class="font-serif text-3xl font-medium text-charcoalText mt-1">Haldi Ceremony</h3>
+                                <p class="font-serif text-champagneDark text-lg mt-0.5">2nd December 2026 • Wednesday
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="space-y-2 text-sm text-gray-700 md:text-right border-t md:border-t-0 pt-4 md:pt-0 border-gray-100">
+                            <div class="flex items-center md:justify-end gap-2 text-gray-900 font-medium">
+                                <i class="fas fa-sun text-amber-500"></i>
+                                <span>11:00 AM <span class="text-xs text-mutedGray font-normal">(Morning)</span></span>
+                            </div>
+                            <div class="flex items-start md:justify-end gap-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt text-champagneDark mt-0.5"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-900">Blossom Garden, Wedding Crown</p>
+                                    <p class="text-mutedGray text-xs">Sector 74, Noida, Uttar Pradesh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap gap-4 pt-4 border-t border-gray-100 justify-between items-center">
+                        <div class="text-xs text-mutedGray italic font-serif">Turmeric ritual & blessings of joy</div>
+                        <div class="flex gap-4">
+                            <a href="https://maps.google.com/?q=Blossom+Garden+Wedding+Crown+Sector+74+Noida"
+                                target="_blank" rel="noopener"
+                                class="text-xs uppercase tracking-widest text-champagneDark hover:underline font-semibold font-sans flex items-center gap-1.5">
+                                <i class="fas fa-directions"></i> Directions
+                            </a>
+                            <button
+                                onclick="addToCalendar('Haldi Ceremony', 'Blossom Garden, Wedding Crown, Sector 74, Noida', '2026-12-02T11:00:00', '2026-12-02T14:00:00', 'Haldi Ceremony of Chitra & Divij')"
+                                class="text-xs uppercase tracking-widest text-sageDark hover:underline font-semibold font-sans flex items-center gap-1.5">
+                                <i class="far fa-calendar-plus"></i> Add to Calendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Function 2: Engagement -->
+                <div
+                    class="subtle-card rounded-xl overflow-hidden p-8 md:p-10 bg-white border border-champagneGold/20 reveal">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div class="flex items-start gap-5">
+                            <!-- Engagement Rings Vector SVG Icon -->
+                            <div
+                                class="w-16 h-16 rounded-full bg-champagneLight border border-champagneGold/30 flex items-center justify-center text-champagneDark flex-shrink-0">
+                                <svg class="w-8 h-8 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="1.5">
+                                    <circle cx="9" cy="12" r="5" />
+                                    <circle cx="15" cy="12" r="5" />
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-champagneDark text-xs px-2.5 py-0.5 rounded bg-champagneLight uppercase tracking-widest font-semibold font-sans">Evening
+                                    Soirée</span>
+                                <h3 class="font-serif text-3xl font-medium text-charcoalText mt-1">Engagement Ceremony
+                                </h3>
+                                <p class="font-serif text-champagneDark text-lg mt-0.5">2nd December 2026 • Wednesday
+                                </p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="space-y-2 text-sm text-gray-700 md:text-right border-t md:border-t-0 pt-4 md:pt-0 border-gray-100">
+                            <div class="flex items-center md:justify-end gap-2 text-gray-900 font-medium">
+                                <i class="fas fa-moon text-indigo-400"></i>
+                                <span>07:00 PM <span class="text-xs text-mutedGray font-normal">(Evening)</span></span>
+                            </div>
+                            <div class="flex items-start md:justify-end gap-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt text-champagneDark mt-0.5"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-900">Glass House, Wedding Crown</p>
+                                    <p class="text-mutedGray text-xs">Sector 74, Noida, Uttar Pradesh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap gap-4 pt-4 border-t border-gray-100 justify-between items-center">
+                        <div class="text-xs text-mutedGray italic font-serif">Ring ceremony followed by dinner & music
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="https://maps.google.com/?q=Glass+House+Wedding+Crown+Sector+74+Noida"
+                                target="_blank" rel="noopener"
+                                class="text-xs uppercase tracking-widest text-champagneDark hover:underline font-semibold font-sans flex items-center gap-1.5">
+                                <i class="fas fa-directions"></i> Directions
+                            </a>
+                            <button
+                                onclick="addToCalendar('Engagement Ceremony', 'Glass House, Wedding Crown, Sector 74, Noida', '2026-12-02T19:00:00', '2026-12-02T23:00:00', 'Engagement Ceremony of Chitra & Divij')"
+                                class="text-xs uppercase tracking-widest text-sageDark hover:underline font-semibold font-sans flex items-center gap-1.5">
+                                <i class="far fa-calendar-plus"></i> Add to Calendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Function 3: Wedding -->
+                <div
+                    class="subtle-card rounded-xl overflow-hidden p-8 md:p-10 bg-white border border-champagneGold/20 reveal">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div class="flex items-start gap-5">
+                            <!-- Wedding Mandap / Royal Crown Vector SVG Icon -->
+                            <div
+                                class="w-16 h-16 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-700 flex-shrink-0">
+                                <svg class="w-8 h-8 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 3v3m0 0l-3 3m3-3l3 3M3 21h18M5 21V10l7-5 7 5v11M9 21v-4a3 3 0 016 0v4" />
+                                </svg>
+                            </div>
+                            <div>
+                                <span
+                                    class="text-champagneDark text-xs px-2.5 py-0.5 rounded bg-champagneLight uppercase tracking-widest font-semibold font-sans">Main
+                                    Ceremony</span>
+                                <h3 class="font-serif text-3xl font-medium text-charcoalText mt-1">The Grand Wedding
+                                </h3>
+                                <p class="font-serif text-champagneDark text-lg mt-0.5">3rd December 2026 • Thursday</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="space-y-2 text-sm text-gray-700 md:text-right border-t md:border-t-0 pt-4 md:pt-0 border-gray-100">
+                            <div class="flex items-center md:justify-end gap-2 text-gray-900 font-medium">
+                                <i class="fas fa-moon text-indigo-400"></i>
+                                <span>07:00 PM <span class="text-xs text-mutedGray font-normal">(Evening)</span></span>
+                            </div>
+                            <div class="flex items-start md:justify-end gap-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt text-champagneDark mt-0.5"></i>
+                                <div>
+                                    <p class="font-semibold text-gray-900">The Adiraa 52</p>
+                                    <p class="text-mutedGray text-xs">Block E, Sector 52, Noida, Uttar Pradesh</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap gap-4 pt-4 border-t border-gray-100 justify-between items-center">
+                        <div class="text-xs text-mutedGray italic font-serif">Pheras, Mahurat & grand wedding feast
+                        </div>
+                        <div class="flex gap-4">
+                            <a href="https://maps.google.com/?q=The+Adiraa+52+Block+E+Sector+52+Noida" target="_blank"
+                                rel="noopener"
+                                class="text-xs uppercase tracking-widest text-champagneDark hover:underline font-semibold font-sans flex items-center gap-1.5">
+                                <i class="fas fa-directions"></i> Directions
+                            </a>
+                            <button
+                                onclick="addToCalendar('Wedding Ceremony', 'The Adiraa 52, Block E, Sector 52, Noida', '2026-12-03T19:00:00', '2026-12-04T02:00:00', 'Grand Wedding Ceremony of Chitra & Divij')"
+                                class="text-xs uppercase tracking-widest text-sageDark hover:underline font-semibold font-sans flex items-center gap-1.5">
+                                <i class="far fa-calendar-plus"></i> Add to Calendar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="venue" class="py-24 px-4 bg-white text-charcoalText relative">
+        <div class="max-w-4xl mx-auto text-center space-y-8 reveal">
+            <span class="font-script text-3xl md:text-4xl text-champagneDark">Locations</span>
+            <h2 class="font-serif text-3xl md:text-4xl font-normal tracking-wide text-charcoalText">Celebration Venues
+                in Noida</h2>
+            <div class="w-16 h-px bg-champagneGold mx-auto"></div>
+
+            <div class="grid md:grid-cols-2 gap-8 text-left pt-6">
+                <!-- Venue 1 -->
+                <div class="subtle-card p-8 rounded-xl bg-linenBg flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-10 h-10 rounded-full bg-champagneLight flex items-center justify-center text-champagneDark mb-4">
+                            <i class="fas fa-archway text-base"></i>
+                        </div>
+                        <span
+                            class="text-xs uppercase tracking-[0.2em] text-champagneDark font-semibold font-sans">Haldi
+                            & Engagement</span>
+                        <h3 class="font-serif text-2xl font-medium text-charcoalText mt-1 mb-2">Wedding Crown</h3>
+                        <p class="text-sm text-mutedGray font-serif leading-relaxed">
+                            Blossom Garden & Glass House<br>
+                            Sector 74, Noida, Uttar Pradesh
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-champagneGold/10">
+                        <a href="https://maps.google.com/?q=Wedding+Crown+Sector+74+Noida" target="_blank"
+                            rel="noopener"
+                            class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-champagneDark hover:underline font-semibold font-sans">
+                            <i class="fas fa-map-marked-alt"></i> Open Google Maps
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Venue 2 -->
+                <div class="subtle-card p-8 rounded-xl bg-linenBg flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-10 h-10 rounded-full bg-champagneLight flex items-center justify-center text-champagneDark mb-4">
+                            <i class="fas fa-hotel text-base"></i>
+                        </div>
+                        <span
+                            class="text-xs uppercase tracking-[0.2em] text-champagneDark font-semibold font-sans">Grand
+                            Wedding</span>
+                        <h3 class="font-serif text-2xl font-medium text-charcoalText mt-1 mb-2">The Adiraa 52</h3>
+                        <p class="text-sm text-mutedGray font-serif leading-relaxed">
+                            Block E, Sector 52<br>
+                            Noida, Uttar Pradesh
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-champagneGold/10">
+                        <a href="https://maps.google.com/?q=The+Adiraa+52+Block+E+Sector+52+Noida" target="_blank"
+                            rel="noopener"
+                            class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-champagneDark hover:underline font-semibold font-sans">
+                            <i class="fas fa-map-marked-alt"></i> Open Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-linenBg text-charcoalText py-12 px-4 border-t border-champagneGold/20 text-center">
+        <div class="max-w-4xl mx-auto space-y-6">
+
+            <!-- Floral Divider Vector -->
+            <div class="flex items-center justify-center gap-3 text-champagneGold/60">
+                <span class="h-px w-16 bg-champagneGold/30"></span>
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path
+                        d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z" />
+                </svg>
+                <span class="h-px w-16 bg-champagneGold/30"></span>
+            </div>
+
+            <div class="font-serif text-xl text-champagneDark tracking-[0.25em] font-semibold">
+                CHITRA & DIVIJ
+            </div>
+
+            <p class="font-script text-2xl md:text-3xl text-sageDark">
+                We await your gracious presence and blessings
+            </p>
+
+            <div class="text-xs font-sans text-mutedGray uppercase tracking-widest space-y-1 pt-2">
+                <p>Grand • Indian • Weddings</p>
+                <p>© 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Intersection Reveal
+        function handleScrollAnimations() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+            const windowHeight = window.innerHeight;
+
+            reveals.forEach((element) => {
+                const elementTop = element.getBoundingClientRect().top;
+                const revealPoint = 80;
+
+                if (elementTop < windowHeight - revealPoint) {
+                    element.classList.add('active');
+                }
+            });
+
+            const backToTopBtn = document.getElementById('backToTop');
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                backToTopBtn.classList.add('opacity-100');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                backToTopBtn.classList.remove('opacity-100');
+            }
+        }
+
+        window.addEventListener('scroll', handleScrollAnimations);
+        window.addEventListener('load', handleScrollAnimations);
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Countdown Timer Calculation
+        const weddingDate = new Date('December 2, 2026 11:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = weddingDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerText = String(days).padStart(2, '0');
+                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Interactive Petal Falling Canvas
+        const canvas = document.getElementById('petalCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const petals = [];
+        const numPetals = 22;
+
+        class Petal {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = Math.random() * 5 + 3;
+                this.speedY = Math.random() * 0.7 + 0.3;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.angle = Math.random() * 360;
+                this.spin = (Math.random() - 0.5) * 0.02;
+                const colors = ['#B88D3F', '#E6D5B8', '#D8C59D', '#8F6E2D'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = Math.random() * 0.4 + 0.2;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.angle) * 0.4;
+                this.angle += this.spin;
+
+                if (this.y > canvas.height + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, this.size, this.size / 2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < numPetals; i++) {
+            petals.push(new Petal());
+        }
+
+        function animatePetals() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animatePetals);
+        }
+        animatePetals();
+
+        // Web Audio Synthesizer Ambient Sound
+        let audioCtx = null;
+        let isPlaying = false;
+        let mainInterval = null;
+
+        function toggleMusic() {
+            const icon = document.getElementById('musicIcon');
+
+            if (!isPlaying) {
+                try {
+                    if (!audioCtx) {
+                        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                    if (audioCtx.state === 'suspended') {
+                        audioCtx.resume();
+                    }
+                    playAmbientMelody();
+                    isPlaying = true;
+                    icon.className = "fas fa-volume-up text-base text-champagneDark";
+                } catch (e) {
+                    console.log("Audio play error", e);
+                }
+            } else {
+                if (mainInterval) clearInterval(mainInterval);
+                if (audioCtx) audioCtx.suspend();
+                isPlaying = false;
+                icon.className = "fas fa-music text-base text-champagneDark";
+            }
+        }
+
+        function playAmbientMelody() {
+            const notes = [261.63, 329.63, 392.00, 440.00, 523.25];
+            let step = 0;
+
+            mainInterval = setInterval(() => {
+                if (!isPlaying || !audioCtx) return;
+
+                const freq = notes[step % notes.length];
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.03, audioCtx.currentTime + 0.4);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.8);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 1.9);
+
+                step = Math.floor(Math.random() * notes.length);
+            }, 1100);
+        }
+
+        // Calendar Add Helper
+        function addToCalendar(title, location, startDateISO, endDateISO, description) {
+            const startStr = startDateISO.replace(/-|:|\.\d\d\d/g, "");
+            const endStr = endDateISO.replace(/-|:|\.\d\d\d/g, "");
+
+            const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startStr}/${endStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
+            window.open(googleUrl, '_blank');
+        }
+    </script>
+</body>
+
+</html>
