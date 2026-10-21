@@ -68,6 +68,106 @@
             border-color: rgba(184, 141, 63, 0.62);
         }
 
+        .function-list>.subtle-card {
+            position: relative;
+            width: 100%;
+            margin-bottom: clamp(6rem, 14vw, 10rem);
+            isolation: isolate;
+            overflow: visible;
+        }
+
+        .function-card-art {
+            display: block;
+            width: clamp(6rem, 14vw, 10rem);
+            height: clamp(6rem, 14vw, 10rem);
+            margin: 0 auto 1.5rem;
+            object-fit: contain;
+            opacity: 0.9;
+            margin-top: -15px;
+            /* margin-right: 0; */
+        }
+
+        .function-card-art-haldi {
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: -32px;
+        }
+
+        .function-list>.subtle-card:nth-child(3)::before {
+            position: absolute;
+            top: calc(100%);
+            width: clamp(6rem, 14vw, 10rem);
+            height: clamp(6rem, 14vw, 10rem);
+            content: "";
+            pointer-events: none;
+            z-index: 0;
+            background-image: var(--function-art);
+            background-repeat: no-repeat;
+            background-position: bottom center;
+            background-size: contain;
+            opacity: 0.9;
+        }
+
+        .function-list>.subtle-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .function-list>.subtle-card:nth-child(1) {
+            z-index: 2;
+        }
+
+        .function-list>.subtle-card:nth-child(2) {
+            margin-bottom: 0;
+            z-index: 1;
+        }
+
+        .function-list>.subtle-card:nth-child(3) {
+            --function-art: url("Images/Wedding.png");
+            margin-bottom: clamp(8rem, 18vw, 12rem);
+        }
+
+        .function-list>.subtle-card:nth-child(3)::before {
+            left: 1rem;
+        }
+
+        .function-list>.subtle-card>.wedding-procession-art {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: -4rem;
+            z-index: 0;
+            width: clamp(20rem, 14vw, 10rem);
+            height: clamp(6rem, 14vw, 10rem);
+            pointer-events: none;
+            object-fit: contain;
+            opacity: 0.9;
+        }
+
+        .wedding-knot-art {
+            display: block;
+            width: 100%;
+            max-height: 12rem;
+            margin: -1.5rem auto 1.5rem;
+            object-fit: contain;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 767px) {
+            .wedding-knot-art {
+                width: calc(100% + 4rem);
+                max-width: none;
+                margin: -1rem -2rem 1.5rem;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .wedding-knot-art {
+                width: calc(100% + 5rem);
+                max-width: none;
+                margin: -1.5rem -2.5rem 1.5rem;
+            }
+        }
+
         /* Scroll Animation Utility Classes */
         .reveal {
             opacity: 0;
@@ -114,6 +214,228 @@
             animation: float 6s ease-in-out infinite;
         }
 
+        .hero-stagger>* {
+            opacity: 0;
+            animation: hero-enter 0.75s cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+        }
+
+        .hero-stagger> :nth-child(1) {
+            animation-delay: 0.12s;
+        }
+
+        .hero-stagger> :nth-child(2) {
+            animation-delay: 0.24s;
+        }
+
+        .hero-stagger> :nth-child(3) {
+            animation-delay: 0.36s;
+        }
+
+        .hero-stagger> :nth-child(4) {
+            animation-delay: 0.48s;
+        }
+
+        .hero-stagger> :nth-child(5) {
+            animation-delay: 0.60s;
+        }
+
+        .hero-stagger> :nth-child(6) {
+            animation-delay: 0.72s;
+        }
+
+        .hero-stagger> :nth-child(7) {
+            animation-delay: 0.84s;
+        }
+
+        @keyframes hero-enter {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toran-trim {
+            position: absolute;
+            inset: 66px 0 auto;
+            height: 34px;
+            pointer-events: none;
+            opacity: 0.9;
+            background-image:
+                radial-gradient(circle at 50% 14%, #e7ad37 0 2px, transparent 2.8px),
+                radial-gradient(circle at 78% 32%, #e7ad37 0 2px, transparent 2.8px),
+                radial-gradient(circle at 78% 68%, #e7ad37 0 2px, transparent 2.8px),
+                radial-gradient(circle at 50% 86%, #e7ad37 0 2px, transparent 2.8px),
+                radial-gradient(circle at 22% 68%, #e7ad37 0 2px, transparent 2.8px),
+                radial-gradient(circle at 22% 32%, #e7ad37 0 2px, transparent 2.8px),
+                radial-gradient(circle at 50% 50%, #a94d35 0 2px, transparent 2.8px),
+                linear-gradient(90deg, transparent 49%, #7a8b78 49% 51%, transparent 51%);
+            background-size: 34px 34px;
+            mask-image: linear-gradient(to bottom, #000 0 60%, transparent 100%);
+        }
+
+        .section-toran {
+            inset: 0 0 auto;
+            z-index: 4;
+            opacity: 0.65;
+        }
+
+        footer .toran-trim {
+            inset: auto 0 0;
+            transform: rotate(180deg);
+            opacity: 0.65;
+        }
+
+        .heritage-hero {
+            background:
+                radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.12) 72%),
+                linear-gradient(rgba(253, 251, 247, 0.12), rgba(253, 251, 247, 0.12)),
+                url("HeroBackground.jpg") center / cover no-repeat;
+        }
+
+        #couple {
+            /* background-color: #54411250; */
+            background-image: url("RedRoseBG.png"), url("FamilyBackground.jpg");
+            background-position: center, center 58%;
+            background-size: cover, cover;
+            background-repeat: no-repeat, no-repeat;
+        }
+
+        .heritage-scene {
+            position: absolute;
+            inset: auto 0 0;
+            height: min(62vh, 560px);
+            min-height: 360px;
+            pointer-events: none;
+            opacity: 0.78;
+        }
+
+        .heritage-scene svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .rangoli-stamp {
+            position: absolute;
+            z-index: 2;
+            top: 50%;
+            right: 9%;
+            width: clamp(110px, 16vw, 190px);
+            aspect-ratio: 1;
+            border: 1px solid rgba(243, 234, 216, 0.62);
+            border-radius: 50%;
+            background:
+                radial-gradient(circle, transparent 0 27%, rgba(243, 234, 216, 0.82) 27.5% 28.5%, transparent 29% 47%, rgba(243, 234, 216, 0.7) 47.5% 48.5%, transparent 49%),
+                repeating-conic-gradient(from 0deg, rgba(243, 234, 216, 0.68) 0deg 1deg, transparent 1deg 15deg);
+            transform: translateY(-50%);
+            animation: rangoli-turn 50s linear infinite;
+            opacity: 0.72;
+        }
+
+        @keyframes rangoli-turn {
+            to {
+                rotate: 1turn;
+            }
+        }
+
+        .wedding-image-band {
+            position: relative;
+            min-height: 340px;
+            overflow: hidden;
+            isolation: isolate;
+            background: #563a2d;
+        }
+
+        .wedding-image-band img {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 55%;
+            transform: scale(1.07);
+            transition: transform 1.4s cubic-bezier(0.2, 0.75, 0.25, 1);
+        }
+
+        .wedding-image-band.active img {
+            transform: scale(1);
+        }
+
+        .wedding-image-band::after {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            content: "";
+            background: linear-gradient(90deg, rgba(31, 24, 20, 0.72), rgba(31, 24, 20, 0.28) 58%, rgba(31, 24, 20, 0.08));
+        }
+
+        .wedding-image-copy {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            min-height: 340px;
+            max-width: 72rem;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+            align-items: center;
+        }
+
+        .wedding-image-copy>div {
+            max-width: 34rem;
+            border-left: 1px solid rgba(243, 234, 216, 0.8);
+            padding-left: 1.5rem;
+            color: #fff;
+        }
+
+        .wedding-image-copy p:first-child {
+            color: #f1d29a;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+        }
+
+        .wedding-image-copy .event-ribbon {
+            color: #f1d29a;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .function-list>.reveal:nth-child(2) {
+            transition-delay: 100ms;
+        }
+
+        .function-list>.reveal:nth-child(3) {
+            transition-delay: 200ms;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .hero-stagger>* {
+                opacity: 1;
+            }
+
+            #petalCanvas {
+                display: none;
+            }
+        }
+
         #petalCanvas {
             position: fixed;
             top: 0;
@@ -138,13 +460,13 @@
             <i class="fas fa-chevron-up text-sm"></i>
         </button>
 
-        <button id="musicToggle" onclick="toggleMusic()"
+        <button id="musicToggle" onclick="toggleMusic()" aria-label="Play wedding music" aria-pressed="false"
             class="w-12 h-12 rounded-full bg-white text-champagneDark border border-champagneGold/40 shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 group relative"
-            title="Toggle Ambient Melody">
-            <i id="musicIcon" class="fas fa-music text-base"></i>
+            title="Play wedding music">
+            <i id="musicIcon" class="fas fa-volume-xmark text-base" aria-hidden="true"></i>
             <span
                 class="absolute right-14 top-1 bg-white text-charcoalText text-xs font-serif py-1 px-3 rounded-md shadow-md border border-champagneGold/30 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                Ambient Sound
+                <span id="musicLabel">Play wedding music</span>
             </span>
         </button>
     </div>
@@ -175,7 +497,44 @@
     </nav>
 
     <section id="hero"
-        class="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 bg-linenBg overflow-hidden">
+        class="heritage-hero relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 overflow-hidden">
+
+        <div class="toran-trim" aria-hidden="true"></div>
+
+        <div class="heritage-scene" aria-hidden="true">
+            <!-- <svg viewBox="0 0 1440 560" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+                <g fill="#8f6e2d" opacity=".1">
+                    <path d="M350 510h740v18H350zM390 480h660v30H390zM430 370h580v110H430z" />
+                    <path
+                        d="M510 370v-64c0-34 26-62 60-62s60 28 60 62v64zM810 370v-64c0-34 26-62 60-62s60 28 60 62v64z" />
+                    <path d="M630 370v-96c0-57 36-104 90-139 54 35 90 82 90 139v96z" />
+                    <path d="M677 160c10-31 25-55 43-76 18 21 33 45 43 76-20-11-66-11-86 0zM715 81V54h10v27z" />
+                    <path
+                        d="M405 370V229h18v141zM397 229c2-39 9-70 17-91 8 21 15 52 17 91zM1017 370V229h18v141zM1009 229c2-39 9-70 17-91 8 21 15 52 17 91z" />
+                    <path d="M452 405h536v75H452z" />
+                </g>
+                <g fill="none" stroke="#8f6e2d" stroke-width="2" opacity=".22">
+                    <path d="M430 370h580M390 480h660M350 510h740" />
+                    <path d="M630 370v-96c0-57 36-104 90-139 54 35 90 82 90 139v96" />
+                    <path
+                        d="M510 370v-64c0-34 26-62 60-62s60 28 60 62v64M810 370v-64c0-34 26-62 60-62s60 28 60 62v64" />
+                    <path d="M452 405h536M452 480v-75M988 480v-75" />
+                </g>
+                <g id="elephant" fill="#8f6e2d" opacity=".13" transform="translate(95 0)">
+                    <path
+                        d="M35 421c0-34 27-61 66-61h53c25 0 42 12 53 31l16 8c11 6 17 16 17 29v23h-19v-16h-15v63h-18v-46H99v46H81v-46H61v46H43v-49c-5-8-8-17-8-28z" />
+                    <path
+                        d="M185 395c11-6 23-7 35-2l17 10c9 6 13 15 13 26v23c0 16-8 28-18 37l-8-11c6-9 8-17 8-26v-21l-17-9-17 4z" />
+                    <path d="M193 398c-5 20-22 31-38 25-13-5-18-22-11-38 7-16 24-24 38-17 8 4 13 14 11 30z" />
+                    <path
+                        d="M222 403c10 3 15 10 15 19h-9c0-5-3-8-8-10zM76 376c13 4 21 14 21 27-12 5-25 1-31-9-5-8-2-15 10-18z" />
+                    <path d="M59 431h47v48H59z" opacity=".45" />
+                    <path d="M65 439h35M65 449h35M65 459h35" fill="none" stroke="#fbf5eb" stroke-width="3" />
+                    <circle cx="187" cy="390" r="3" fill="#fbf5eb" />
+                </g>
+                <use href="#elephant" transform="translate(1440 0) scale(-1 1)" />
+            </svg> -->
+        </div>
 
         <!-- Subtle Vector Background Floral Pattern -->
         <div class="absolute inset-0 opacity-[0.5] pointer-events-none flex justify-between items-center px-12">
@@ -187,14 +546,14 @@
             </svg> -->
         </div>
 
-        <div class="relative z-10 max-w-4xl mx-auto text-center space-y-6 reveal active">
+        <div class="relative z-10 max-w-4xl mx-auto text-center space-y-6 reveal active hero-stagger">
 
             <div
                 class="mt-4 text-champagneDark font-serif text-xs md:text-sm tracking-[0.3em] uppercase flex items-center justify-center gap-3">
                 <!-- <br></br> -->
-                <span class="h-px w-12 bg-champagneGold/50"></span>
-                <span>|| Shree Ganeshay Namah ||</span>
-                <span class="h-px w-12 bg-champagneGold/50"></span>
+                <span class="h-px w-10 bg-champagneGold/50"></span>
+                <span>|| OM Shree Ganeshay Namah ||</span>
+                <span class="h-px w-10 bg-champagneGold/50"></span>
             </div>
 
             <!-- Monogram Frame Vector -->
@@ -231,8 +590,8 @@
                     <p class="font-serif text-lg md:text-xl text-champagneDark font-medium uppercase tracking-[0.2em]">
                         2nd & 3rd December 2026
                     </p>
-                    <p class="text-xs font-sans tracking-widest text-mutedGray uppercase mt-1">Sector 74 & Sector 52 •
-                        Noida, UP</p>
+                    <!-- <p class="text-xs font-sans tracking-widest text-mutedGray uppercase mt-1">Sector 74 & Sector 52 •
+                        Noida, UP</p> -->
                 </div>
             </div>
 
@@ -265,7 +624,22 @@
         </div>
     </section>
 
-    <section id="couple" class="py-24 px-4 bg-white relative overflow-hidden">
+    <section class="wedding-image-band reveal" aria-label="Wedding celebration">
+        <!-- <div class="toran-trim section-toran" aria-hidden="true"></div> -->
+        <img src="banner.png" alt="A bride in her wedding attire holding a bouquet" loading="lazy">
+        <div class="rangoli-stamp" aria-hidden="true"></div>
+        <div class="wedding-image-copy">
+            <div>
+                <p>With joy in our hearts</p>
+                <h2 class="font-serif text-4xl md:text-6xl mt-2">A celebration of love<br>and togetherness</h2>
+                <!-- <p class="font-script text-2xl md:text-3xl mt-3">Chitra & Divij · December 2026</p> -->
+                <p class="event-ribbon mt-4">Haldi · Engagement · Wedding</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="couple" class="py-24 px-4 relative overflow-hidden">
+        <!-- <div class="toran-trim section-toran" aria-hidden="true"></div> -->
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16 reveal">
                 <span class="font-script text-3xl md:text-4xl text-champagneDark">The Bride's & Groom's</span>
@@ -336,6 +710,7 @@
     </section>
 
     <section id="functions" class="py-24 px-4 bg-linenBg relative">
+        <div class="toran-trim section-toran" aria-hidden="true"></div>
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16 reveal">
                 <span class="font-script text-3xl md:text-4xl text-champagneDark">Wedding Itinerary</span>
@@ -344,11 +719,13 @@
                 <div class="w-16 h-px bg-champagneGold mx-auto mt-4"></div>
             </div>
 
-            <div class="space-y-8">
+            <div class="space-y-8 function-list">
 
                 <!-- Function 1: Haldi -->
                 <div
                     class="subtle-card rounded-xl overflow-hidden p-8 md:p-10 bg-white border border-champagneGold/20 reveal">
+                    <img class="function-card-art function-card-art-haldi" src="Images/Haldi.png" alt=""
+                        aria-hidden="true">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div class="flex items-start gap-5">
                             <!-- Haldi Vector SVG Icon -->
@@ -388,13 +765,13 @@
                     <div class="mt-6 flex flex-wrap gap-4 pt-4 border-t border-gray-100 justify-between items-center">
                         <div class="text-xs text-mutedGray italic font-serif">Turmeric ritual & blessings of joy</div>
                         <div class="flex gap-4">
-                            <a href="https://maps.google.com/?q=Blossom+Garden+Wedding+Crown+Sector+74+Noida"
-                                target="_blank" rel="noopener"
+                            <a href="https://maps.google.com/?q=Wedding+Crown+Sector+74+Noida" target="_blank"
+                                rel="noopener"
                                 class="text-xs uppercase tracking-widest text-champagneDark hover:underline font-semibold font-sans flex items-center gap-1.5">
                                 <i class="fas fa-directions"></i> Directions
                             </a>
                             <button
-                                onclick="addToCalendar('Haldi Ceremony', 'Blossom Garden, Wedding Crown, Sector 74, Noida', '2026-12-02T11:00:00', '2026-12-02T14:00:00', 'Haldi Ceremony of Chitra & Divij')"
+                                onclick="addToCalendar('Haldi Ceremony', 'Wedding Crown, Sector 74, Noida', '2026-12-02T11:00:00', '2026-12-02T14:00:00', 'Haldi Ceremony of Chitra & Divij')"
                                 class="text-xs uppercase tracking-widest text-sageDark hover:underline font-semibold font-sans flex items-center gap-1.5">
                                 <i class="far fa-calendar-plus"></i> Add to Calendar
                             </button>
@@ -405,6 +782,7 @@
                 <!-- Function 2: Engagement -->
                 <div
                     class="subtle-card rounded-xl overflow-hidden p-8 md:p-10 bg-white border border-champagneGold/20 reveal">
+                    <img class="function-card-art" src="Images/Engagement.png" alt="" aria-hidden="true">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div class="flex items-start gap-5">
                             <!-- Engagement Rings Vector SVG Icon -->
@@ -446,13 +824,13 @@
                         <div class="text-xs text-mutedGray italic font-serif">Ring ceremony followed by dinner & music
                         </div>
                         <div class="flex gap-4">
-                            <a href="https://maps.google.com/?q=Glass+House+Wedding+Crown+Sector+74+Noida"
-                                target="_blank" rel="noopener"
+                            <a href="https://maps.google.com/?q=Wedding+Crown+Sector+74+Noida" target="_blank"
+                                rel="noopener"
                                 class="text-xs uppercase tracking-widest text-champagneDark hover:underline font-semibold font-sans flex items-center gap-1.5">
                                 <i class="fas fa-directions"></i> Directions
                             </a>
                             <button
-                                onclick="addToCalendar('Engagement Ceremony', 'Glass House, Wedding Crown, Sector 74, Noida', '2026-12-02T19:00:00', '2026-12-02T23:00:00', 'Engagement Ceremony of Chitra & Divij')"
+                                onclick="addToCalendar('Engagement Ceremony', 'Wedding Crown, Sector 74, Noida', '2026-12-02T19:00:00', '2026-12-02T23:00:00', 'Engagement Ceremony of Chitra & Divij')"
                                 class="text-xs uppercase tracking-widest text-sageDark hover:underline font-semibold font-sans flex items-center gap-1.5">
                                 <i class="far fa-calendar-plus"></i> Add to Calendar
                             </button>
@@ -463,6 +841,7 @@
                 <!-- Function 3: Wedding -->
                 <div
                     class="subtle-card rounded-xl overflow-hidden p-8 md:p-10 bg-white border border-champagneGold/20 reveal">
+                    <img class="wedding-knot-art" src="Images/KnotArt.webp" alt="Decorative red and gold wedding knot">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div class="flex items-start gap-5">
                             <!-- Wedding Mandap / Royal Crown Vector SVG Icon -->
@@ -515,22 +894,23 @@
                             </button>
                         </div>
                     </div>
+                    <img class="wedding-procession-art" src="Images/Wedding art.png" alt="" aria-hidden="true">
                 </div>
 
             </div>
         </div>
     </section>
 
-    <section id="venue" class="py-24 px-4 bg-white text-charcoalText relative">
+    <!-- <section id="venue" class="py-24 px-4 bg-white text-charcoalText relative">
         <div class="max-w-4xl mx-auto text-center space-y-8 reveal">
             <span class="font-script text-3xl md:text-4xl text-champagneDark">Locations</span>
             <h2 class="font-serif text-3xl md:text-4xl font-normal tracking-wide text-charcoalText">Celebration Venues
                 in Noida</h2>
             <div class="w-16 h-px bg-champagneGold mx-auto"></div>
 
-            <div class="grid md:grid-cols-2 gap-8 text-left pt-6">
-                <!-- Venue 1 -->
-                <div class="subtle-card p-8 rounded-xl bg-linenBg flex flex-col justify-between">
+            <div class="grid md:grid-cols-2 gap-8 text-left pt-6"> -->
+
+    <!-- <div class="subtle-card p-8 rounded-xl bg-linenBg flex flex-col justify-between">
                     <div>
                         <div
                             class="w-10 h-10 rounded-full bg-champagneLight flex items-center justify-center text-champagneDark mb-4">
@@ -552,10 +932,9 @@
                             <i class="fas fa-map-marked-alt"></i> Open Google Maps
                         </a>
                     </div>
-                </div>
+                </div> -->
 
-                <!-- Venue 2 -->
-                <div class="subtle-card p-8 rounded-xl bg-linenBg flex flex-col justify-between">
+    <!-- <div class="subtle-card p-8 rounded-xl bg-linenBg flex flex-col justify-between">
                     <div>
                         <div
                             class="w-10 h-10 rounded-full bg-champagneLight flex items-center justify-center text-champagneDark mb-4">
@@ -580,9 +959,10 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
-    <footer class="bg-linenBg text-charcoalText py-12 px-4 border-t border-champagneGold/20 text-center">
+    <footer
+        class="relative overflow-hidden bg-linenBg text-charcoalText py-12 px-4 border-t border-champagneGold/20 text-center">
         <div class="max-w-4xl mx-auto space-y-6">
 
             <!-- Floral Divider Vector -->
@@ -604,10 +984,11 @@
             </p>
 
             <div class="text-xs font-sans text-mutedGray uppercase tracking-widest space-y-1 pt-2">
-                <p>Grand • Indian • Weddings</p>
-                <p>© 2026</p>
+                <!-- <p>Grand • Indian • Weddings</p>
+                <p>© 2026</p> -->
             </div>
         </div>
+        <div class="toran-trim" aria-hidden="true"></div>
     </footer>
 
     <script>
@@ -691,7 +1072,7 @@
                 this.speedX = Math.random() * 0.6 - 0.3;
                 this.angle = Math.random() * 360;
                 this.spin = (Math.random() - 0.5) * 0.02;
-                const colors = ['#B88D3F', '#E6D5B8', '#D8C59D', '#8F6E2D'];
+                const colors = ['#B88D3F', '#E6D5B8', '#D8C59D', '#8F6E2D', '#D89A2B', '#A94D35'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.opacity = Math.random() * 0.4 + 0.2;
             }
@@ -733,63 +1114,121 @@
         }
         animatePetals();
 
-        // Web Audio Synthesizer Ambient Sound
+        // A gentle shehnai-style melody over a tanpura-inspired drone.
         let audioCtx = null;
         let isPlaying = false;
         let mainInterval = null;
+        let musicStartPromise = null;
+        let droneStarted = false;
 
-        function toggleMusic() {
+        function updateMusicControl() {
             const icon = document.getElementById('musicIcon');
+            const button = document.getElementById('musicToggle');
+            const label = document.getElementById('musicLabel');
 
-            if (!isPlaying) {
+            icon.className = isPlaying
+                ? "fas fa-volume-high text-base text-champagneDark"
+                : "fas fa-volume-xmark text-base";
+            button.setAttribute('aria-label', isPlaying ? 'Pause wedding music' : 'Play wedding music');
+            button.setAttribute('aria-pressed', String(isPlaying));
+            button.title = isPlaying ? 'Pause wedding music' : 'Play wedding music';
+            label.textContent = isPlaying ? 'Pause wedding music' : 'Play wedding music';
+        }
+
+        function startMusic() {
+            if (isPlaying) return Promise.resolve(true);
+            if (musicStartPromise) return musicStartPromise;
+
+            musicStartPromise = (async () => {
                 try {
                     if (!audioCtx) {
-                        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                        if (!AudioContextClass) throw new Error('Web Audio is not supported in this browser.');
+                        audioCtx = new AudioContextClass();
                     }
-                    if (audioCtx.state === 'suspended') {
-                        audioCtx.resume();
+
+                    if (audioCtx.state !== 'running') await audioCtx.resume();
+                    if (audioCtx.state !== 'running') return false;
+
+                    if (!droneStarted) {
+                        [130.81, 196].forEach((frequency, index) => {
+                            const drone = audioCtx.createOscillator();
+                            const volume = audioCtx.createGain();
+                            drone.type = 'sine';
+                            drone.frequency.value = frequency;
+                            volume.gain.value = index === 0 ? 0.018 : 0.009;
+                            drone.connect(volume);
+                            volume.connect(audioCtx.destination);
+                            drone.start();
+                        });
+                        droneStarted = true;
                     }
-                    playAmbientMelody();
+
                     isPlaying = true;
-                    icon.className = "fas fa-volume-up text-base text-champagneDark";
-                } catch (e) {
-                    console.log("Audio play error", e);
+                    playWeddingMelody();
+                    updateMusicControl();
+                    return true;
+                } catch (error) {
+                    console.error('Unable to start wedding music:', error);
+                    updateMusicControl();
+                    return false;
+                } finally {
+                    musicStartPromise = null;
                 }
+            })();
+
+            return musicStartPromise;
+        }
+
+        function stopMusic() {
+            if (mainInterval) clearInterval(mainInterval);
+            mainInterval = null;
+            isPlaying = false;
+            if (audioCtx && audioCtx.state === 'running') audioCtx.suspend();
+            updateMusicControl();
+        }
+
+        async function toggleMusic() {
+            if (isPlaying) {
+                stopMusic();
             } else {
-                if (mainInterval) clearInterval(mainInterval);
-                if (audioCtx) audioCtx.suspend();
-                isPlaying = false;
-                icon.className = "fas fa-music text-base text-champagneDark";
+                await startMusic();
             }
         }
 
-        function playAmbientMelody() {
-            const notes = [261.63, 329.63, 392.00, 440.00, 523.25];
+        function playWeddingMelody() {
+            const notes = [261.63, 329.63, 369.99, 392, 493.88, 523.25, 493.88, 392, 369.99, 329.63];
             let step = 0;
 
             mainInterval = setInterval(() => {
                 if (!isPlaying || !audioCtx) return;
 
                 const freq = notes[step % notes.length];
-                const osc = audioCtx.createOscillator();
+                const shehnai = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
 
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                shehnai.type = 'triangle';
+                shehnai.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
                 gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.03, audioCtx.currentTime + 0.4);
-                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.8);
+                gain.gain.exponentialRampToValueAtTime(0.045, audioCtx.currentTime + 0.08);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
 
-                osc.connect(gain);
+                shehnai.connect(gain);
                 gain.connect(audioCtx.destination);
 
-                osc.start();
-                osc.stop(audioCtx.currentTime + 1.9);
+                shehnai.start();
+                shehnai.stop(audioCtx.currentTime + 1.25);
 
-                step = Math.floor(Math.random() * notes.length);
-            }, 1100);
+                step++;
+            }, 850);
         }
+
+        document.addEventListener('pointerdown', (event) => {
+            if (!(event.target instanceof Element) || !event.target.closest('#musicToggle')) startMusic();
+        }, { once: true });
+        document.addEventListener('keydown', startMusic, { once: true });
+        startMusic();
 
         // Calendar Add Helper
         function addToCalendar(title, location, startDateISO, endDateISO, description) {
@@ -799,6 +1238,7 @@
             const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startStr}/${endStr}&details=${encodeURIComponent(description)}&location=${encodeURIComponent(location)}`;
             window.open(googleUrl, '_blank');
         }
+
     </script>
 </body>
 
